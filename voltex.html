@@ -1,0 +1,1603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VoltEx Engineering — Electrical Solutions</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --dark: #111318;
+    --panel: #161b22;
+    --border: #1e2633;
+    --yellow: #f5c400;
+    --amber: #ff8c00;
+    --red: #e63946;
+    --white: #f0f4f8;
+    --muted: #8899aa;
+    --grid: rgba(245,196,0,0.04);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Rajdhani', sans-serif;
+    background: var(--black);
+    color: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* ── GRID BACKGROUND ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    height: 64px;
+    background: rgba(10,10,10,0.92);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: var(--yellow);
+    letter-spacing: 3px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .nav-logo .bolt { color: var(--amber); font-size: 22px; }
+
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+    cursor: pointer;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--yellow); }
+
+  .nav-cta {
+    background: var(--yellow);
+    color: var(--black);
+    border: none;
+    padding: 10px 24px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  }
+  .nav-cta:hover { background: var(--amber); transform: translateY(-1px); }
+
+  /* ── SECTIONS ── */
+  .page { display: none; min-height: 100vh; padding-top: 64px; position: relative; z-index: 1; }
+  .page.active { display: block; }
+
+  /* ══════════════════════════════════
+     HOME PAGE
+  ══════════════════════════════════ */
+  .hero {
+    min-height: calc(100vh - 64px);
+    display: flex;
+    align-items: center;
+    padding: 80px 80px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-circuit {
+    position: absolute;
+    right: 0; top: 0; bottom: 0;
+    width: 55%;
+    opacity: 0.12;
+    pointer-events: none;
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(245,196,0,0.15) 0%, transparent 70%);
+    top: 50%; left: 60%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .hero-content { max-width: 640px; animation: fadeUp 0.8s ease both; }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--yellow);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    border: 1px solid rgba(245,196,0,0.3);
+    padding: 6px 14px;
+  }
+
+  .hero-tag::before {
+    content: '';
+    width: 8px; height: 8px;
+    background: var(--yellow);
+    border-radius: 50%;
+    animation: blink 1.4s infinite;
+  }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(64px, 8vw, 110px);
+    line-height: 0.92;
+    letter-spacing: 2px;
+    margin-bottom: 28px;
+    color: var(--white);
+  }
+
+  h1 .accent { color: var(--yellow); display: block; }
+
+  .hero-desc {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--muted);
+    margin-bottom: 44px;
+    max-width: 520px;
+  }
+
+  .hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; }
+
+  .btn-primary {
+    background: var(--yellow);
+    color: var(--black);
+    border: none;
+    padding: 14px 32px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+  }
+  .btn-primary:hover { background: var(--amber); transform: translateY(-2px); }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--yellow);
+    border: 1px solid var(--yellow);
+    padding: 14px 32px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-outline:hover { background: rgba(245,196,0,0.1); }
+
+  /* STATS */
+  .stats-bar {
+    background: var(--panel);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .stat-item {
+    padding: 32px 40px;
+    border-right: 1px solid var(--border);
+    animation: fadeUp 0.8s ease both;
+  }
+  .stat-item:last-child { border-right: none; }
+
+  .stat-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    color: var(--yellow);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-label { font-size: 13px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; }
+
+  /* WHY US */
+  .section { padding: 100px 80px; }
+  .section-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--yellow);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(40px, 5vw, 64px);
+    letter-spacing: 2px;
+    margin-bottom: 60px;
+    line-height: 1;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .feature-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 40px 36px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.2s;
+  }
+  .feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--yellow), var(--amber));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+  .feature-card:hover::before { transform: scaleX(1); }
+  .feature-card:hover { border-color: rgba(245,196,0,0.3); transform: translateY(-4px); }
+
+  .feature-icon {
+    font-size: 36px;
+    margin-bottom: 20px;
+    display: block;
+  }
+  .feature-title {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    color: var(--white);
+  }
+  .feature-desc { font-size: 15px; line-height: 1.7; color: var(--muted); }
+
+  /* SPEC TABLE */
+  .spec-section {
+    padding: 80px 80px;
+    background: var(--panel);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .spec-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+
+  .spec-table { width: 100%; border-collapse: collapse; }
+  .spec-table tr { border-bottom: 1px solid var(--border); }
+  .spec-table td {
+    padding: 16px 0;
+    font-size: 15px;
+  }
+  .spec-table td:first-child { color: var(--muted); letter-spacing: 1px; }
+  .spec-table td:last-child { color: var(--white); font-weight: 600; text-align: right; font-family: 'Share Tech Mono', monospace; }
+
+  .wire-visual {
+    position: relative;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ══════════════════════════════════
+     ABOUT / OWNER PAGE
+  ══════════════════════════════════ */
+  .about-hero {
+    padding: 80px 80px 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    min-height: 70vh;
+  }
+
+  .owner-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 48px;
+    position: relative;
+  }
+
+  .owner-card::after {
+    content: '';
+    position: absolute;
+    bottom: -3px; right: -3px;
+    width: 60%; height: 60%;
+    border-bottom: 3px solid var(--yellow);
+    border-right: 3px solid var(--yellow);
+  }
+
+  .owner-avatar {
+    width: 120px; height: 120px;
+    background: linear-gradient(135deg, var(--yellow), var(--amber));
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    color: var(--black);
+    margin-bottom: 28px;
+  }
+
+  .owner-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    letter-spacing: 2px;
+    color: var(--yellow);
+    margin-bottom: 4px;
+  }
+
+  .owner-title {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: var(--amber);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+
+  .owner-bio { font-size: 16px; line-height: 1.8; color: var(--muted); margin-bottom: 32px; }
+
+  .owner-contacts { display: flex; flex-direction: column; gap: 12px; }
+  .contact-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .contact-row .icon { color: var(--yellow); font-size: 16px; width: 20px; }
+  .contact-row span { color: var(--white); }
+
+  .certs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 60px;
+  }
+
+  .cert-badge {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    transition: border-color 0.2s;
+  }
+  .cert-badge:hover { border-color: var(--yellow); }
+  .cert-badge .cert-icon { font-size: 24px; }
+
+  /* Timeline */
+  .timeline { padding: 0 80px 80px; }
+  .timeline-inner { position: relative; padding-left: 48px; }
+  .timeline-inner::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--yellow), var(--amber), transparent);
+  }
+
+  .tl-item {
+    position: relative;
+    margin-bottom: 40px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .tl-dot {
+    position: absolute;
+    left: -54px; top: 4px;
+    width: 14px; height: 14px;
+    background: var(--yellow);
+    border: 3px solid var(--black);
+    border-radius: 50%;
+    box-shadow: 0 0 12px rgba(245,196,0,0.5);
+  }
+
+  .tl-year {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: var(--yellow);
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+  }
+  .tl-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+  .tl-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+  /* ══════════════════════════════════
+     SERVICES PAGE
+  ══════════════════════════════════ */
+  .services-hero {
+    padding: 80px 80px 60px;
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .services-grid {
+    padding: 0 60px 80px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3px;
+  }
+
+  .service-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 48px 44px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+    cursor: default;
+  }
+
+  .service-card:hover {
+    border-color: rgba(245,196,0,0.4);
+    background: #1a1f28;
+  }
+
+  .service-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 80px;
+    color: rgba(245,196,0,0.06);
+    position: absolute;
+    top: -10px; right: 24px;
+    line-height: 1;
+    user-select: none;
+    transition: color 0.3s;
+  }
+  .service-card:hover .service-num { color: rgba(245,196,0,0.12); }
+
+  .service-icon { font-size: 40px; margin-bottom: 20px; display: block; }
+  .service-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 30px;
+    letter-spacing: 2px;
+    color: var(--yellow);
+    margin-bottom: 14px;
+  }
+  .service-desc { font-size: 15px; line-height: 1.8; color: var(--muted); margin-bottom: 24px; }
+
+  .service-features { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .service-features li {
+    font-size: 13px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    letter-spacing: 0.5px;
+  }
+  .service-features li::before {
+    content: '▸';
+    color: var(--yellow);
+    font-size: 10px;
+    flex-shrink: 0;
+  }
+
+  .pricing-section { padding: 80px; background: var(--panel); border-top: 1px solid var(--border); }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 60px;
+  }
+
+  .price-card {
+    background: var(--dark);
+    border: 1px solid var(--border);
+    padding: 40px 36px;
+    position: relative;
+    transition: border-color 0.2s;
+  }
+
+  .price-card.featured {
+    background: var(--panel);
+    border-color: var(--yellow);
+  }
+
+  .price-badge {
+    position: absolute;
+    top: -12px; left: 50%;
+    transform: translateX(-50%);
+    background: var(--yellow);
+    color: var(--black);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 16px;
+    clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+  }
+
+  .price-tier {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--yellow);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .price-amount {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 56px;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .price-unit { font-size: 13px; color: var(--muted); margin-bottom: 28px; letter-spacing: 1px; }
+
+  .price-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 32px; }
+  .price-features li {
+    font-size: 14px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .price-features li::before { content: '✓'; color: var(--yellow); font-weight: 700; }
+
+  /* ══════════════════════════════════
+     CLIENTS PAGE
+  ══════════════════════════════════ */
+  .clients-hero {
+    padding: 80px;
+    max-width: 700px;
+  }
+
+  .clients-logos {
+    padding: 0 80px 60px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+  }
+
+  .client-logo-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    text-align: center;
+    transition: border-color 0.2s;
+    min-height: 140px;
+  }
+  .client-logo-card:hover { border-color: rgba(245,196,0,0.4); }
+  .client-logo-card .client-icon { font-size: 36px; }
+  .client-logo-card .client-name { font-size: 13px; font-weight: 700; letter-spacing: 1px; color: var(--muted); }
+
+  /* TESTIMONIALS */
+  .testimonials { padding: 80px; }
+
+  .testi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 60px;
+  }
+
+  .testi-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 36px;
+    position: relative;
+  }
+
+  .testi-quote {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 80px;
+    color: rgba(245,196,0,0.1);
+    position: absolute;
+    top: -10px; left: 20px;
+    line-height: 1;
+    user-select: none;
+  }
+
+  .testi-text { font-size: 15px; line-height: 1.8; color: var(--muted); margin-bottom: 24px; position: relative; }
+  .testi-author { display: flex; align-items: center; gap: 14px; }
+  .testi-avatar {
+    width: 44px; height: 44px;
+    background: linear-gradient(135deg, var(--yellow), var(--amber));
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    color: var(--black);
+    flex-shrink: 0;
+  }
+  .testi-name { font-size: 14px; font-weight: 700; }
+  .testi-role { font-size: 12px; color: var(--muted); letter-spacing: 1px; }
+
+  /* PROJECT SHOWCASE */
+  .projects { padding: 0 80px 80px; }
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3px;
+    margin-top: 60px;
+  }
+
+  .project-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 36px 32px;
+    transition: all 0.3s;
+  }
+  .project-card:hover { border-color: rgba(245,196,0,0.4); }
+
+  .project-tag {
+    display: inline-block;
+    background: rgba(245,196,0,0.1);
+    color: var(--yellow);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    padding: 4px 10px;
+    margin-bottom: 16px;
+  }
+  .project-name { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+  .project-desc { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 20px; }
+  .project-meta {
+    display: flex;
+    gap: 20px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .project-meta span { display: flex; align-items: center; gap: 6px; }
+
+  /* CONTACT CTA */
+  .contact-cta {
+    padding: 80px;
+    background: var(--panel);
+    border-top: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 40px;
+  }
+
+  .cta-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    letter-spacing: 2px;
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+  .cta-sub { font-size: 16px; color: var(--muted); }
+
+  /* FOOTER */
+  footer {
+    background: var(--dark);
+    border-top: 1px solid var(--border);
+    padding: 60px 80px 40px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 60px;
+    margin-bottom: 48px;
+  }
+
+  .footer-brand .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    color: var(--yellow);
+    letter-spacing: 3px;
+    margin-bottom: 16px;
+    display: block;
+  }
+  .footer-brand p { font-size: 14px; color: var(--muted); line-height: 1.7; max-width: 280px; }
+
+  .footer-col h4 {
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--yellow);
+    margin-bottom: 20px;
+  }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-col ul li { font-size: 14px; color: var(--muted); cursor: pointer; transition: color 0.2s; }
+  .footer-col ul li:hover { color: var(--white); }
+
+  .footer-bottom {
+    border-top: 1px solid var(--border);
+    padding-top: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+  }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(245,196,0,0.4); }
+    50% { box-shadow: 0 0 0 12px rgba(245,196,0,0); }
+  }
+
+  /* CIRCUIT SVG */
+  .circuit-bg {
+    position: absolute;
+    right: 40px; top: 50%;
+    transform: translateY(-50%);
+    width: 480px; height: 480px;
+    opacity: 0.07;
+  }
+
+  /* WIRE DIAGRAM */
+  .wire-diagram { width: 100%; }
+
+  /* Scrolling ticker */
+  .ticker {
+    background: var(--yellow);
+    color: var(--black);
+    overflow: hidden;
+    padding: 10px 0;
+    white-space: nowrap;
+    position: relative;
+  }
+  .ticker-inner {
+    display: inline-block;
+    animation: scroll 30s linear infinite;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+  }
+  @keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 0 24px; }
+    .nav-links { display: none; }
+    .hero { padding: 60px 24px; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); }
+    .section { padding: 60px 24px; }
+    .spec-section { padding: 60px 24px; }
+    .features-grid { grid-template-columns: 1fr; }
+    .about-hero { grid-template-columns: 1fr; padding: 60px 24px; }
+    .services-grid { grid-template-columns: 1fr; padding: 0 24px 60px; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .pricing-section { padding: 60px 24px; }
+    .clients-logos { grid-template-columns: repeat(2, 1fr); padding: 0 24px 40px; }
+    .testi-grid { grid-template-columns: 1fr; }
+    .testimonials { padding: 60px 24px; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .projects { padding: 0 24px 60px; }
+    .contact-cta { grid-template-columns: 1fr; padding: 60px 24px; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    footer { padding: 60px 24px 40px; }
+    .spec-grid { grid-template-columns: 1fr; }
+    .timeline { padding: 0 24px 60px; }
+    .clients-hero { padding: 60px 24px; }
+    h1 { font-size: 56px; }
+    .cta-title { font-size: 36px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" onclick="showPage('home')">
+    <span class="bolt">⚡</span>VOLTEX
+  </a>
+  <ul class="nav-links">
+    <li><a onclick="showPage('home')" id="nav-home" class="active">Home</a></li>
+    <li><a onclick="showPage('about')" id="nav-about">About / Owner</a></li>
+    <li><a onclick="showPage('services')" id="nav-services">Services</a></li>
+    <li><a onclick="showPage('clients')" id="nav-clients">Clients</a></li>
+  </ul>
+  <button class="nav-cta" onclick="showPage('clients')">Get a Quote</button>
+</nav>
+
+<!-- ════════════════════════════════
+     HOME PAGE
+════════════════════════════════ -->
+<section class="page active" id="page-home">
+
+  <!-- Ticker -->
+  <div class="ticker">
+    <span class="ticker-inner">
+      ⚡ INDUSTRIAL WIRING &nbsp;•&nbsp; HIGH-VOLTAGE SYSTEMS &nbsp;•&nbsp; PANEL BOARDS &nbsp;•&nbsp; EARTHING & GROUNDING &nbsp;•&nbsp; CABLE MANAGEMENT &nbsp;•&nbsp; MOTOR CONTROL &nbsp;•&nbsp; PLC SYSTEMS &nbsp;•&nbsp; SOLAR INTEGRATION &nbsp;•&nbsp; FIRE ALARM SYSTEMS &nbsp;•&nbsp; LOAD BALANCING &nbsp;&nbsp;&nbsp;
+      ⚡ INDUSTRIAL WIRING &nbsp;•&nbsp; HIGH-VOLTAGE SYSTEMS &nbsp;•&nbsp; PANEL BOARDS &nbsp;•&nbsp; EARTHING & GROUNDING &nbsp;•&nbsp; CABLE MANAGEMENT &nbsp;•&nbsp; MOTOR CONTROL &nbsp;•&nbsp; PLC SYSTEMS &nbsp;•&nbsp; SOLAR INTEGRATION &nbsp;•&nbsp; FIRE ALARM SYSTEMS &nbsp;•&nbsp; LOAD BALANCING &nbsp;&nbsp;&nbsp;
+    </span>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-glow"></div>
+
+    <!-- Circuit SVG bg -->
+    <svg class="circuit-bg" viewBox="0 0 480 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="40" y="40" width="400" height="400" stroke="#f5c400" stroke-width="1"/>
+      <line x1="40" y1="120" x2="160" y2="120" stroke="#f5c400" stroke-width="1.5"/>
+      <circle cx="160" cy="120" r="6" fill="#f5c400"/>
+      <line x1="160" y1="120" x2="160" y2="240" stroke="#f5c400" stroke-width="1.5"/>
+      <line x1="160" y1="240" x2="320" y2="240" stroke="#f5c400" stroke-width="1.5"/>
+      <circle cx="320" cy="240" r="6" fill="#f5c400"/>
+      <line x1="320" y1="240" x2="320" y2="360" stroke="#f5c400" stroke-width="1.5"/>
+      <line x1="320" y1="360" x2="440" y2="360" stroke="#f5c400" stroke-width="1.5"/>
+      <line x1="80" y1="40" x2="80" y2="200" stroke="#f5c400" stroke-width="1"/>
+      <circle cx="80" cy="200" r="4" fill="none" stroke="#f5c400"/>
+      <line x1="80" y1="200" x2="240" y2="200" stroke="#f5c400" stroke-width="1"/>
+      <line x1="240" y1="200" x2="240" y2="320" stroke="#f5c400" stroke-width="1"/>
+      <circle cx="240" cy="320" r="4" fill="none" stroke="#f5c400"/>
+      <line x1="240" y1="320" x2="400" y2="320" stroke="#f5c400" stroke-width="1"/>
+      <rect x="100" y="100" width="40" height="20" stroke="#f5c400" stroke-width="1.5" fill="none"/>
+      <rect x="260" y="260" width="40" height="20" stroke="#f5c400" stroke-width="1.5" fill="none"/>
+      <line x1="260" y1="80" x2="380" y2="80" stroke="#ff8c00" stroke-width="1"/>
+      <circle cx="260" cy="80" r="5" fill="#ff8c00"/>
+      <circle cx="380" cy="80" r="5" fill="#ff8c00"/>
+      <line x1="380" y1="80" x2="380" y2="160" stroke="#ff8c00" stroke-width="1"/>
+      <line x1="380" y1="160" x2="440" y2="160" stroke="#ff8c00" stroke-width="1"/>
+      <line x1="200" y1="40" x2="200" y2="160" stroke="#f5c400" stroke-width="0.5" opacity="0.5"/>
+      <line x1="200" y1="160" x2="120" y2="160" stroke="#f5c400" stroke-width="0.5" opacity="0.5"/>
+      <circle cx="120" cy="160" r="3" fill="#f5c400" opacity="0.5"/>
+      <line x1="360" y1="40" x2="360" y2="120" stroke="#f5c400" stroke-width="0.5" opacity="0.5"/>
+      <line x1="40" y1="300" x2="120" y2="300" stroke="#f5c400" stroke-width="0.5" opacity="0.5"/>
+      <circle cx="120" cy="300" r="3" fill="#f5c400" opacity="0.5"/>
+      <line x1="120" y1="300" x2="120" y2="400" stroke="#f5c400" stroke-width="0.5" opacity="0.5"/>
+      <line x1="120" y1="400" x2="200" y2="400" stroke="#f5c400" stroke-width="0.5" opacity="0.5"/>
+    </svg>
+
+    <div class="hero-content">
+      <div class="hero-tag">Est. 2009 — Surat, Gujarat</div>
+      <h1>POWER YOUR <span class="accent">WORLD</span></h1>
+      <p class="hero-desc">
+        VoltEx Engineering delivers precision electrical solutions for industrial, commercial, and infrastructure projects. From panel wiring to turnkey HV installations — we engineer reliability into every connection.
+      </p>
+      <div class="hero-buttons">
+        <button class="btn-primary" onclick="showPage('services')">Our Services</button>
+        <button class="btn-outline" onclick="showPage('about')">Meet the Owner</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-bar">
+    <div class="stat-item">
+      <div class="stat-number">15+</div>
+      <div class="stat-label">Years in Operation</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">840+</div>
+      <div class="stat-label">Projects Completed</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">320+</div>
+      <div class="stat-label">Active Clients</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">99.4%</div>
+      <div class="stat-label">Uptime Guarantee</div>
+    </div>
+  </div>
+
+  <!-- WHY US -->
+  <div class="section">
+    <div class="section-label">// WHY VOLTEX</div>
+    <div class="section-title">ENGINEERED FOR <br>EXCELLENCE</div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <span class="feature-icon">🔌</span>
+        <div class="feature-title">ISI-Certified Wiring</div>
+        <p class="feature-desc">All cable installations comply with IS:694, IS:1554, and Bureau of Indian Standards norms. We use only ISI-marked conductors and accessories.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">🛡️</span>
+        <div class="feature-title">Safety First Approach</div>
+        <p class="feature-desc">Every project includes arc-flash hazard analysis, proper earthing, ELCB/RCCB protection, and full compliance with the Indian Electricity Rules.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">⚙️</span>
+        <div class="feature-title">Turnkey Delivery</div>
+        <p class="feature-desc">From initial load calculations and SLD drawings to commissioning and handover — we handle the complete electrical scope so you don't have to.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">📐</span>
+        <div class="feature-title">Precision Engineering</div>
+        <p class="feature-desc">Our in-house draftsmen produce AutoCAD electrical layouts and schematic diagrams reviewed by licensed electrical engineers before work begins.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">⚡</span>
+        <div class="feature-title">24 / 7 Emergency</div>
+        <p class="feature-desc">Electrical faults don't wait for business hours. Our rapid-response team is available around the clock for critical system breakdowns and shutdowns.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">🌱</span>
+        <div class="feature-title">Green Energy Ready</div>
+        <p class="feature-desc">Solar PV integration, net-metering, EV charging infrastructure, and energy audits — future-proofing your facility for cleaner power.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- WIRE SPECS -->
+  <div class="spec-section">
+    <div class="spec-grid">
+      <div>
+        <div class="section-label">// TECHNICAL CAPABILITIES</div>
+        <div class="section-title" style="font-size:40px;margin-bottom:32px;">WIRE & CABLE<br>SPECIFICATIONS</div>
+        <table class="spec-table">
+          <tr><td>Voltage Range</td><td>415V — 33kV</td></tr>
+          <tr><td>Cable Types</td><td>XLPE / PVC / Armoured</td></tr>
+          <tr><td>Conductor</td><td>Copper & Aluminium</td></tr>
+          <tr><td>Core Config</td><td>1C / 2C / 3C / 3.5C / 4C</td></tr>
+          <tr><td>Standards</td><td>IS:1554 / IS:7098 / IEC 60502</td></tr>
+          <tr><td>Max Current</td><td>Up to 800A per feeder</td></tr>
+          <tr><td>Protection Class</td><td>IP55 — IP66 outdoor</td></tr>
+          <tr><td>Earthing</td><td>TT / TN-S / TN-C-S Systems</td></tr>
+        </table>
+      </div>
+      <div>
+        <!-- Wire cross-section illustration -->
+        <svg class="wire-diagram" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Outer jacket -->
+          <circle cx="200" cy="150" r="130" fill="#1e2633" stroke="#f5c400" stroke-width="2"/>
+          <!-- Armour layer -->
+          <circle cx="200" cy="150" r="110" fill="#161b22" stroke="#ff8c00" stroke-width="1.5" stroke-dasharray="8 4"/>
+          <!-- Inner sheath -->
+          <circle cx="200" cy="150" r="90" fill="#111318" stroke="#8899aa" stroke-width="1"/>
+          <!-- Fillers -->
+          <circle cx="200" cy="150" r="20" fill="#1e2633"/>
+          <!-- 3 cores -->
+          <circle cx="200" cy="90" r="26" fill="#0a2240" stroke="#4488ff" stroke-width="2"/>
+          <circle cx="200" cy="90" r="16" fill="#1a4080" stroke="#6699ff" stroke-width="1"/>
+          <circle cx="200" cy="90" r="8" fill="#f5c400"/>
+          <!-- Core R label -->
+          <text x="200" y="55" font-family="Share Tech Mono" font-size="11" fill="#4488ff" text-anchor="middle">R</text>
+          <!-- Core Y -->
+          <circle cx="247" cy="175" r="26" fill="#402000" stroke="#ff8c00" stroke-width="2"/>
+          <circle cx="247" cy="175" r="16" fill="#804010" stroke="#ffaa44" stroke-width="1"/>
+          <circle cx="247" cy="175" r="8" fill="#f5c400"/>
+          <text x="278" y="180" font-family="Share Tech Mono" font-size="11" fill="#ff8c00" text-anchor="middle">Y</text>
+          <!-- Core B -->
+          <circle cx="153" cy="175" r="26" fill="#001a20" stroke="#00ccff" stroke-width="2"/>
+          <circle cx="153" cy="175" r="16" fill="#004060" stroke="#44ddff" stroke-width="1"/>
+          <circle cx="153" cy="175" r="8" fill="#f5c400"/>
+          <text x="122" y="180" font-family="Share Tech Mono" font-size="11" fill="#00ccff" text-anchor="middle">B</text>
+          <!-- Legend -->
+          <rect x="10" y="258" width="10" height="10" fill="#f5c400"/>
+          <text x="26" y="268" font-family="Share Tech Mono" font-size="10" fill="#8899aa">Copper Conductor</text>
+          <rect x="160" y="258" width="10" height="10" fill="none" stroke="#f5c400" stroke-width="1.5"/>
+          <text x="176" y="268" font-family="Share Tech Mono" font-size="10" fill="#8899aa">XLPE Insulation</text>
+          <rect x="300" y="258" width="10" height="10" fill="none" stroke="#ff8c00" stroke-width="1.5" stroke-dasharray="4 2"/>
+          <text x="316" y="268" font-family="Share Tech Mono" font-size="10" fill="#8899aa">Armour</text>
+          <!-- Title -->
+          <text x="200" y="18" font-family="Bebas Neue" font-size="14" fill="#f5c400" letter-spacing="3" text-anchor="middle">3-CORE XLPE ARMOURED CABLE</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT CTA -->
+  <div class="contact-cta">
+    <div>
+      <div class="cta-title">READY TO POWER <br><span style="color:var(--yellow)">YOUR PROJECT?</span></div>
+      <div class="cta-sub">Get a free site survey and detailed electrical estimate — no obligations.</div>
+    </div>
+    <div style="display:flex;gap:16px;flex-wrap:wrap">
+      <button class="btn-primary" onclick="showPage('clients')">Request a Quote</button>
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <a href="tel:+919898123456" style="font-family:'Share Tech Mono',monospace;font-size:18px;color:var(--yellow);text-decoration:none;">+91 98981 23456</a>
+        <span style="font-size:12px;color:var(--muted);letter-spacing:1px;">Call Us Anytime</span>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="logo">⚡ VOLTEX</span>
+        <p>Precision electrical engineering for industrial, commercial, and infrastructure projects across Gujarat and beyond.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li onclick="showPage('home')">Home</li>
+          <li onclick="showPage('about')">About / Owner</li>
+          <li onclick="showPage('services')">Services</li>
+          <li onclick="showPage('clients')">Clients</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li>HT/LT Wiring</li>
+          <li>Panel Boards</li>
+          <li>PLC & Automation</li>
+          <li>Solar Integration</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li>+91 98981 23456</li>
+          <li>info@voltex.in</li>
+          <li>Surat, Gujarat — 395001</li>
+          <li>Mon – Sat: 9AM – 7PM</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 VoltEx Engineering Pvt. Ltd. All rights reserved.</span>
+      <span style="font-family:'Share Tech Mono',monospace;letter-spacing:2px;">GSTIN: 24AAAAA0000A1Z5</span>
+    </div>
+  </footer>
+</section>
+
+<!-- ════════════════════════════════
+     ABOUT / OWNER PAGE
+════════════════════════════════ -->
+<section class="page" id="page-about">
+  <div class="about-hero">
+    <div>
+      <div class="section-label">// FOUNDER & DIRECTOR</div>
+      <h1 style="font-size:56px;margin-bottom:20px;">THE MAN<br><span class="accent">BEHIND THE</span><br>WIRE</h1>
+      <p style="font-size:16px;line-height:1.8;color:var(--muted);max-width:480px;">
+        VoltEx Engineering was built on two decades of hands-on electrical expertise, a commitment to safety, and a passion for solving complex power challenges that others won't touch.
+      </p>
+
+      <!-- Certifications -->
+      <div class="certs-grid">
+        <div class="cert-badge"><span class="cert-icon">🎓</span><span>B.E. Electrical Engineering<br><small style="color:var(--muted)">SVNIT Surat, 2004</small></span></div>
+        <div class="cert-badge"><span class="cert-icon">📜</span><span>Licensed Electrical Contractor<br><small style="color:var(--muted)">Govt. of Gujarat</small></span></div>
+        <div class="cert-badge"><span class="cert-icon">🏆</span><span>ISO 9001:2015 Certified<br><small style="color:var(--muted)">Quality Management</small></span></div>
+        <div class="cert-badge"><span class="cert-icon">⚡</span><span>CEA Approved Supervisor<br><small style="color:var(--muted)">Central Electricity Authority</small></span></div>
+      </div>
+    </div>
+
+    <div class="owner-card">
+      <div class="owner-avatar">RD</div>
+      <div class="owner-name">RAJESH DESAI</div>
+      <div class="owner-title">// Founder & Managing Director</div>
+      <p class="owner-bio">
+        With over 20 years of field experience spanning textile mills, chemical plants, IT parks, and residential townships, Rajesh Desai founded VoltEx Engineering in 2009 with a singular mission: to bring engineering-grade precision to every electrical project in Gujarat.<br><br>
+        He personally oversees every project above 500kVA, ensuring that technical drawings, site execution, and final testing meet the company's uncompromising standards.
+      </p>
+      <div class="owner-contacts">
+        <div class="contact-row"><span class="icon">📞</span><span>+91 98981 23456</span></div>
+        <div class="contact-row"><span class="icon">✉️</span><span>rajesh@voltex.in</span></div>
+        <div class="contact-row"><span class="icon">📍</span><span>Ring Road, Surat, Gujarat — 395002</span></div>
+        <div class="contact-row"><span class="icon">🕐</span><span>Available Mon – Sat, 9 AM – 6 PM</span></div>
+        <div class="contact-row"><span class="icon">🔗</span><span>linkedin.com/in/rajeshdesai-voltex</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPANY TIMELINE -->
+  <div class="timeline">
+    <div class="section-label">// COMPANY MILESTONES</div>
+    <div class="section-title" style="margin-bottom:48px;">OUR JOURNEY</div>
+    <div class="timeline-inner">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2009</div>
+        <div class="tl-title">VoltEx Engineering Founded</div>
+        <p class="tl-desc">Started as a 3-person team in Surat's GIDC industrial estate. First major project: complete LT wiring for a 10,000 sq.ft textile unit.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2012</div>
+        <div class="tl-title">First 11kV HT Substation Commissioned</div>
+        <p class="tl-desc">Expanded into high-tension work, delivering our first 11kV/415V substation for a chemical plant in Sachin GIDC.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2015</div>
+        <div class="tl-title">ISO 9001:2015 Certification</div>
+        <p class="tl-desc">Achieved ISO quality management certification and scaled to 40+ skilled electricians and engineers on payroll.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2018</div>
+        <div class="tl-title">Solar & Renewable Division Launched</div>
+        <p class="tl-desc">Added dedicated solar PV integration and net-metering services, completing 50+ rooftop solar installations in Year 1.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2021</div>
+        <div class="tl-title">PLC & Industrial Automation Wing</div>
+        <p class="tl-desc">Expanded into SCADA, PLC programming, and VFD drive systems, partnering with Siemens and ABB as authorised installers.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2024</div>
+        <div class="tl-title">840+ Projects — ₹120 Cr+ Executed</div>
+        <p class="tl-desc">Crossed a landmark of ₹120 crore in total project value executed, with active presence in 6 Gujarat districts.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-bottom" style="border-top:1px solid var(--border);padding-top:28px;display:flex;justify-content:space-between;font-size:12px;color:var(--muted)">
+      <span>© 2026 VoltEx Engineering Pvt. Ltd.</span>
+      <span style="font-family:'Share Tech Mono',monospace">RAJESH DESAI — MANAGING DIRECTOR</span>
+    </div>
+  </footer>
+</section>
+
+<!-- ════════════════════════════════
+     SERVICES PAGE
+════════════════════════════════ -->
+<section class="page" id="page-services">
+  <div class="services-hero" style="padding:80px 80px 40px;text-align:left">
+    <div class="section-label">// WHAT WE DO</div>
+    <h1 style="font-size:clamp(48px,6vw,80px);margin-bottom:20px;">SERVICES<br><span class="accent">WE PROVIDE</span></h1>
+    <p style="font-size:17px;color:var(--muted);line-height:1.8;max-width:560px;">
+      End-to-end electrical engineering services for factories, commercial complexes, infrastructure, and smart buildings — delivered with safety, precision, and code compliance.
+    </p>
+  </div>
+
+  <div class="services-grid">
+    <div class="service-card">
+      <span class="service-num">01</span>
+      <span class="service-icon">🏭</span>
+      <div class="service-name">Industrial Wiring & Cabling</div>
+      <p class="service-desc">Complete LT/HT wiring systems for factories, processing units, warehouses, and manufacturing plants. Includes cable tray systems, conduit wiring, busbar trunking, and load distribution boards.</p>
+      <ul class="service-features">
+        <li>XLPE/SWA armoured cable laying</li>
+        <li>Cable tray design and installation</li>
+        <li>Motor terminal connections up to 500HP</li>
+        <li>Industrial socket and DB board installation</li>
+        <li>Hazardous area (Ex-proof) wiring</li>
+      </ul>
+    </div>
+
+    <div class="service-card">
+      <span class="service-num">02</span>
+      <span class="service-icon">🔋</span>
+      <div class="service-name">HT/LT Substations</div>
+      <p class="service-desc">Design, supply, and commissioning of 11kV/33kV/66kV receiving substations, transformer yards, switchgear rooms, and complete HT cable networks per CEA/DISCOMS requirements.</p>
+      <ul class="service-features">
+        <li>11kV Ring Main Units (RMU)</li>
+        <li>VCB / SF6 circuit breaker panels</li>
+        <li>Power transformer installation</li>
+        <li>Metering panels and CT/PT installation</li>
+        <li>Protection relay coordination</li>
+      </ul>
+    </div>
+
+    <div class="service-card">
+      <span class="service-num">03</span>
+      <span class="service-icon">🗃️</span>
+      <div class="service-name">Panel Board Fabrication</div>
+      <p class="service-desc">Custom-designed and fabricated MCC panels, PCC panels, APFC panels, AMF panels, synchronizing panels, and LT distribution panels built to IS:8623 standards with factory testing.</p>
+      <ul class="service-features">
+        <li>Motor Control Centres (MCC)</li>
+        <li>Power Control Centres (PCC)</li>
+        <li>Automatic Power Factor Correction</li>
+        <li>AMF & DG synchronizing panels</li>
+        <li>SCADA-ready smart panels</li>
+      </ul>
+    </div>
+
+    <div class="service-card">
+      <span class="service-num">04</span>
+      <span class="service-icon">🤖</span>
+      <div class="service-name">PLC & Industrial Automation</div>
+      <p class="service-desc">Complete automation solutions including PLC programming, SCADA systems, HMI integration, VFD installation, and remote monitoring for production and utility systems.</p>
+      <ul class="service-features">
+        <li>Siemens S7 / Allen-Bradley PLC programming</li>
+        <li>SCADA and remote monitoring setup</li>
+        <li>VFD / servo drive commissioning</li>
+        <li>Conveyor and process automation</li>
+        <li>Energy monitoring systems (EMS)</li>
+      </ul>
+    </div>
+
+    <div class="service-card">
+      <span class="service-num">05</span>
+      <span class="service-icon">☀️</span>
+      <div class="service-name">Solar & Renewable Energy</div>
+      <p class="service-desc">Rooftop and ground-mount solar PV system design, installation, and grid integration. Net-metering applications, subsidy processing, and long-term AMC for residential and commercial clients.</p>
+      <ul class="service-features">
+        <li>Rooftop solar (1kW – 1MW)</li>
+        <li>Grid-tie and hybrid inverter systems</li>
+        <li>Net-metering & DGVCL coordination</li>
+        <li>Solar street lights and pumping</li>
+        <li>Battery storage (BESS) integration</li>
+      </ul>
+    </div>
+
+    <div class="service-card">
+      <span class="service-num">06</span>
+      <span class="service-icon">🔥</span>
+      <div class="service-name">Fire Alarm & Safety Systems</div>
+      <p class="service-desc">Design and installation of fire detection, alarm, and suppression systems compliant with NBC 2016 and TAC requirements. Integrated with building management systems.</p>
+      <ul class="service-features">
+        <li>Addressable fire alarm panels</li>
+        <li>Smoke, heat, and beam detectors</li>
+        <li>Sprinkler system pump control</li>
+        <li>PA / public address integration</li>
+        <li>NOC and fire dept. approval support</li>
+      </ul>
+    </div>
+
+    <div class="service-card">
+      <span class="service-num">07</span>
+      <span class="service-icon">⚡</span>
+      <div class="service-name">Earthing & Lightning Protection</div>
+      <p class="service-desc">Comprehensive earthing system design including pipe earthing, plate earthing, chemical earthing, and ESE/conventional lightning arrester installation per IS:3043 and IEC 62305.</p>
+      <ul class="service-features">
+        <li>Chemical earthing electrodes</li>
+        <li>ESE lightning protection systems</li>
+        <li>Earth resistance testing (below 1Ω)</li>
+        <li>Surge protection devices (SPD)</li>
+        <li>Bonding and equipotential systems</li>
+      </ul>
+    </div>
+
+    <div class="service-card">
+      <span class="service-num">08</span>
+      <span class="service-icon">🔍</span>
+      <div class="service-name">Energy Audit & Consultancy</div>
+      <p class="service-desc">Independent energy audit services to identify inefficiencies, reduce power bills, improve power factor, and plan capacity upgrades — backed by certified energy auditors.</p>
+      <ul class="service-features">
+        <li>Detailed energy consumption analysis</li>
+        <li>Power factor improvement planning</li>
+        <li>Load flow and short-circuit studies</li>
+        <li>Thermography and cable testing</li>
+        <li>BEE certified audit reports</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- PRICING -->
+  <div class="pricing-section">
+    <div class="section-label">// SERVICE PACKAGES</div>
+    <div class="section-title">CHOOSE YOUR<br>ENGAGEMENT</div>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-tier">Basic</div>
+        <div class="price-amount">₹500</div>
+        <div class="price-unit">per sq.ft — residential</div>
+        <ul class="price-features">
+          <li>Point wiring (switches, sockets, lights)</li>
+          <li>MCB distribution board</li>
+          <li>Earthing connection</li>
+          <li>ISI-marked cables</li>
+          <li>Completion certificate</li>
+        </ul>
+        <button class="btn-outline" style="width:100%" onclick="showPage('clients')">Get a Quote</button>
+      </div>
+      <div class="price-card featured">
+        <div class="price-badge">Most Popular</div>
+        <div class="price-tier">Industrial</div>
+        <div class="price-amount">₹12L+</div>
+        <div class="price-unit">per project — factory / plant</div>
+        <ul class="price-features">
+          <li>Complete LT wiring + panel</li>
+          <li>HT substation (if required)</li>
+          <li>Motor connections & starters</li>
+          <li>APFC panel and earthing</li>
+          <li>Test reports and documentation</li>
+          <li>1-year workmanship warranty</li>
+        </ul>
+        <button class="btn-primary" style="width:100%;clip-path:none" onclick="showPage('clients')">Get a Quote</button>
+      </div>
+      <div class="price-card">
+        <div class="price-tier">AMC / Maintenance</div>
+        <div class="price-amount">₹8K</div>
+        <div class="price-unit">per month — comprehensive</div>
+        <ul class="price-features">
+          <li>Monthly scheduled inspections</li>
+          <li>24/7 breakdown support</li>
+          <li>Thermal imaging quarterly</li>
+          <li>Panel cleaning and tightening</li>
+          <li>Annual test reports</li>
+        </ul>
+        <button class="btn-outline" style="width:100%" onclick="showPage('clients')">Get a Quote</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-bottom" style="border-top:1px solid var(--border);padding-top:28px;display:flex;justify-content:space-between;font-size:12px;color:var(--muted)">
+      <span>© 2026 VoltEx Engineering Pvt. Ltd.</span>
+      <span style="font-family:'Share Tech Mono',monospace">+91 98981 23456 &nbsp;|&nbsp; info@voltex.in</span>
+    </div>
+  </footer>
+</section>
+
+<!-- ════════════════════════════════
+     CLIENTS PAGE
+════════════════════════════════ -->
+<section class="page" id="page-clients">
+  <div class="clients-hero">
+    <div class="section-label">// OUR CLIENTS</div>
+    <h1 style="font-size:clamp(48px,6vw,80px);margin-bottom:20px;">TRUSTED BY<br><span class="accent">INDUSTRY</span><br>LEADERS</h1>
+    <p style="font-size:17px;color:var(--muted);line-height:1.8;max-width:520px;">
+      From small manufacturing units to large industrial groups — VoltEx has earned the confidence of 320+ clients across Gujarat through consistent, quality delivery.
+    </p>
+  </div>
+
+  <!-- CLIENT LOGOS -->
+  <div class="clients-logos">
+    <div class="client-logo-card"><span class="client-icon">🏭</span><div class="client-name">ALEMBIC PHARMACEUTICALS</div></div>
+    <div class="client-logo-card"><span class="client-icon">🧵</span><div class="client-name">ARVIND MILLS LTD.</div></div>
+    <div class="client-logo-card"><span class="client-icon">🔩</span><div class="client-name">ESSAR STEEL INDIA</div></div>
+    <div class="client-logo-card"><span class="client-icon">🏗️</span><div class="client-name">LARSEN & TOUBRO (L&T)</div></div>
+    <div class="client-logo-card"><span class="client-icon">⚗️</span><div class="client-name">RELIANCE INDUSTRIES</div></div>
+    <div class="client-logo-card"><span class="client-icon">🌊</span><div class="client-name">KRIBHCO FERTILIZERS</div></div>
+    <div class="client-logo-card"><span class="client-icon">🏢</span><div class="client-name">DEVKINANDAN INFRA</div></div>
+    <div class="client-logo-card"><span class="client-icon">🔬</span><div class="client-name">TATA CHEMICALS</div></div>
+    <div class="client-logo-card"><span class="client-icon">🚛</span><div class="client-name">GUJARAT GAS LTD.</div></div>
+    <div class="client-logo-card"><span class="client-icon">🌿</span><div class="client-name">ADANI AGRI FRESH</div></div>
+    <div class="client-logo-card"><span class="client-icon">🏨</span><div class="client-name">HOLIDAY INN SURAT</div></div>
+    <div class="client-logo-card"><span class="client-icon">🎓</span><div class="client-name">SVNIT UNIVERSITY</div></div>
+  </div>
+
+  <!-- PROJECT SHOWCASE -->
+  <div class="projects">
+    <div class="section-label">// COMPLETED PROJECTS</div>
+    <div class="section-title" style="margin-bottom:0">FEATURED WORK</div>
+    <div class="projects-grid">
+      <div class="project-card">
+        <span class="project-tag">INDUSTRIAL</span>
+        <div class="project-name">Alembic Pharma — Plant Electrification</div>
+        <p class="project-desc">Complete 11kV/415V substation and LT wiring for a new pharmaceutical manufacturing plant in Vadodara. Included EX-proof wiring in classified zones.</p>
+        <div class="project-meta">
+          <span>⚡ 2.5 MVA</span>
+          <span>📅 2023</span>
+          <span>📍 Vadodara</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <span class="project-tag">SOLAR</span>
+        <div class="project-name">SVNIT Campus — 500kW Rooftop Solar</div>
+        <p class="project-desc">Designed and commissioned a 500kW grid-tied rooftop solar system across 5 campus buildings with net-metering and real-time generation monitoring.</p>
+        <div class="project-meta">
+          <span>☀️ 500 kWp</span>
+          <span>📅 2022</span>
+          <span>📍 Surat</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <span class="project-tag">AUTOMATION</span>
+        <div class="project-name">Arvind Mills — MCC & PLC Upgrade</div>
+        <p class="project-desc">Replaced legacy motor starters with new Siemens PLC-controlled MCC panels and VFD drives across 3 weaving departments, reducing energy consumption by 22%.</p>
+        <div class="project-meta">
+          <span>🤖 120 Motors</span>
+          <span>📅 2023</span>
+          <span>📍 Naroda, Ahm.</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <span class="project-tag">COMMERCIAL</span>
+        <div class="project-name">Holiday Inn Surat — Full MEP</div>
+        <p class="project-desc">Complete electrical works for a 200-room 5-star hotel including HT substation, UPS, emergency DG, fire alarm, and BMS integration across 18 floors.</p>
+        <div class="project-meta">
+          <span>🏨 200 Rooms</span>
+          <span>📅 2021</span>
+          <span>📍 Surat</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <span class="project-tag">INFRASTRUCTURE</span>
+        <div class="project-name">GIDC Sachin — Street Lighting</div>
+        <p class="project-desc">Design and installation of 4.2km LED street lighting network with AMC feeder pillars and automatic dusk-to-dawn control for an industrial zone.</p>
+        <div class="project-meta">
+          <span>💡 420 Poles</span>
+          <span>📅 2022</span>
+          <span>📍 Sachin, Surat</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <span class="project-tag">ENERGY AUDIT</span>
+        <div class="project-name">Tata Chemicals — Energy Audit</div>
+        <p class="project-desc">Detailed energy audit of a 6MW facility revealing ₹38 lakh/year savings potential through APFC upgrades, LED retrofits, and VFD installations.</p>
+        <div class="project-meta">
+          <span>📊 6 MW Load</span>
+          <span>📅 2024</span>
+          <span>📍 Mithapur</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TESTIMONIALS -->
+  <div class="testimonials" style="background:var(--panel);border-top:1px solid var(--border)">
+    <div class="section-label">// CLIENT FEEDBACK</div>
+    <div class="section-title">WHAT OUR<br>CLIENTS SAY</div>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="testi-quote">"</div>
+        <p class="testi-text">VoltEx delivered our entire plant substation in 45 days flat — ahead of schedule and zero punch-list items. Rajeshbhai's team is technically sound and professional at every level.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">AK</div>
+          <div>
+            <div class="testi-name">Anil Kulkarni</div>
+            <div class="testi-role">Plant Head — Alembic Pharma</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-quote">"</div>
+        <p class="testi-text">Our SVNIT solar project was handled end-to-end — approvals, installation, net metering. The system has been running flawlessly for 2+ years, generating exactly as promised.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">SP</div>
+          <div>
+            <div class="testi-name">Dr. S. Patel</div>
+            <div class="testi-role">Director — SVNIT Surat</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-quote">"</div>
+        <p class="testi-text">We reduced our energy bills by ₹3.2 lakh per month after implementing VoltEx's recommendations from the energy audit. The ROI was achieved in under 14 months. Exceptional work.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">RM</div>
+          <div>
+            <div class="testi-name">Ravi Mehta</div>
+            <div class="testi-role">GM Operations — Tata Chemicals</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT FORM SECTION -->
+  <div style="padding:80px;background:var(--dark);border-top:1px solid var(--border)">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;max-width:1100px">
+      <div>
+        <div class="section-label">// GET IN TOUCH</div>
+        <div class="section-title" style="font-size:48px;margin-bottom:20px;">REQUEST<br>A QUOTE</div>
+        <p style="color:var(--muted);font-size:15px;line-height:1.8;margin-bottom:32px;">Fill in your project details and we'll respond with a free consultation and preliminary estimate within 24 hours.</p>
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div style="display:flex;align-items:center;gap:14px;font-size:14px">
+            <span style="color:var(--yellow);font-size:20px">📞</span>
+            <div><div style="color:var(--white);font-weight:700">+91 98981 23456</div><div style="color:var(--muted)">Call for emergency</div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:14px;font-size:14px">
+            <span style="color:var(--yellow);font-size:20px">✉️</span>
+            <div><div style="color:var(--white);font-weight:700">info@voltex.in</div><div style="color:var(--muted)">General enquiries</div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:14px;font-size:14px">
+            <span style="color:var(--yellow);font-size:20px">📍</span>
+            <div><div style="color:var(--white);font-weight:700">Ring Road, Surat — 395002</div><div style="color:var(--muted)">Gujarat, India</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FORM -->
+      <div style="background:var(--panel);border:1px solid var(--border);padding:40px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+          <div>
+            <label style="display:block;font-size:11px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:8px">Name *</label>
+            <input type="text" placeholder="Your Full Name" style="width:100%;background:var(--dark);border:1px solid var(--border);color:var(--white);padding:12px 14px;font-family:'Rajdhani',sans-serif;font-size:14px;outline:none;transition:border-color 0.2s" onfocus="this.style.borderColor='var(--yellow)'" onblur="this.style.borderColor='var(--border)'">
+          </div>
+          <div>
+            <label style="display:block;font-size:11px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:8px">Phone *</label>
+            <input type="text" placeholder="+91 XXXXX XXXXX" style="width:100%;background:var(--dark);border:1px solid var(--border);color:var(--white);padding:12px 14px;font-family:'Rajdhani',sans-serif;font-size:14px;outline:none;transition:border-color 0.2s" onfocus="this.style.borderColor='var(--yellow)'" onblur="this.style.borderColor='var(--border)'">
+          </div>
+        </div>
+        <div style="margin-bottom:16px">
+          <label style="display:block;font-size:11px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:8px">Email</label>
+          <input type="email" placeholder="you@company.com" style="width:100%;background:var(--dark);border:1px solid var(--border);color:var(--white);padding:12px 14px;font-family:'Rajdhani',sans-serif;font-size:14px;outline:none;transition:border-color 0.2s" onfocus="this.style.borderColor='var(--yellow)'" onblur="this.style.borderColor='var(--border)'">
+        </div>
+        <div style="margin-bottom:16px">
+          <label style="display:block;font-size:11px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:8px">Service Required</label>
+          <select style="width:100%;background:var(--dark);border:1px solid var(--border);color:var(--white);padding:12px 14px;font-family:'Rajdhani',sans-serif;font-size:14px;outline:none;appearance:none;cursor:pointer">
+            <option>Industrial Wiring & Cabling</option>
+            <option>HT/LT Substation</option>
+            <option>Panel Board Fabrication</option>
+            <option>PLC & Automation</option>
+            <option>Solar & Renewable</option>
+            <option>Fire Alarm Systems</option>
+            <option>Earthing & Lightning Protection</option>
+            <option>Energy Audit</option>
+            <option>Annual Maintenance Contract</option>
+          </select>
+        </div>
+        <div style="margin-bottom:24px">
+          <label style="display:block;font-size:11px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:8px">Project Details</label>
+          <textarea rows="4" placeholder="Describe your project, location, approximate load, and timeline..." style="width:100%;background:var(--dark);border:1px solid var(--border);color:var(--white);padding:12px 14px;font-family:'Rajdhani',sans-serif;font-size:14px;outline:none;resize:vertical;transition:border-color 0.2s" onfocus="this.style.borderColor='var(--yellow)'" onblur="this.style.borderColor='var(--border)'"></textarea>
+        </div>
+        <button class="btn-primary" style="width:100%;padding:16px;clip-path:none;font-size:15px" onclick="submitForm()">
+          ⚡ SUBMIT ENQUIRY
+        </button>
+        <p id="form-msg" style="display:none;margin-top:12px;text-align:center;color:var(--yellow);font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:2px"></p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-bottom" style="border-top:1px solid var(--border);padding-top:28px;display:flex;justify-content:space-between;font-size:12px;color:var(--muted)">
+      <span>© 2026 VoltEx Engineering Pvt. Ltd. All rights reserved.</span>
+      <span style="font-family:'Share Tech Mono',monospace">GSTIN: 24AAAAA0000A1Z5</span>
+    </div>
+  </footer>
+</section>
+
+<script>
+  function showPage(name) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
+    document.getElementById('nav-' + name).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function submitForm() {
+    const msg = document.getElementById('form-msg');
+    msg.style.display = 'block';
+    msg.textContent = '✓ ENQUIRY RECEIVED — WE\'LL CALL YOU WITHIN 24 HOURS';
+  }
+</script>
+</body>
+</html>
